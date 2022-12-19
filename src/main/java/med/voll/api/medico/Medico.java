@@ -11,6 +11,7 @@ import med.voll.api.endereco.Endereco;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Builder
 public class Medico {
 
     @Id
@@ -25,4 +26,14 @@ public class Medico {
 
     @Embedded
     private Endereco endereco;
+
+    public static Medico parseToMedico(DadosCadastroMedico dados) {
+        return Medico.builder()
+                .nome(dados.nome())
+                .email(dados.email())
+                .crm(dados.crm())
+                .especialidade(dados.especialidade())
+                .endereco(Endereco.parseToEndereco(dados.endereco()))
+                .build();
+    }
 }

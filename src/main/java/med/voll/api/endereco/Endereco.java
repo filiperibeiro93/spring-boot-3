@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Endereco {
 
     private String logradouro;
@@ -17,4 +18,16 @@ public class Endereco {
     private String complemento;
     private String cidade;
     private String uf;
+
+    public static Endereco parseToEndereco(DadosEndereco dados) {
+        return Endereco.builder()
+                .logradouro(dados.logradouro())
+                .bairro(dados.bairro())
+                .cep(dados.cep())
+                .cidade(dados.cidade())
+                .uf(dados.uf())
+                .complemento(dados.complemento())
+                .numero(dados.numero())
+                .build();
+    }
 }
