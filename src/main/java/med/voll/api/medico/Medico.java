@@ -28,6 +28,8 @@ public class Medico {
     @Embedded
     private Endereco endereco;
 
+    private Boolean ativo;
+
     public static Medico parseToMedico(DadosCadastroMedico dados) {
         return Medico.builder()
                 .nome(dados.nome())
@@ -36,6 +38,7 @@ public class Medico {
                 .crm(dados.crm())
                 .especialidade(dados.especialidade())
                 .endereco(Endereco.parseToEndereco(dados.endereco()))
+                .ativo(true)
                 .build();
     }
 
@@ -49,5 +52,9 @@ public class Medico {
         if (dados.endereco() != null) {
             this.endereco.atualizarDados(dados.endereco());
         }
+    }
+
+    public void desativar() {
+        this.ativo = false;
     }
 }
