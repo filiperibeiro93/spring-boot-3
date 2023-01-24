@@ -1,10 +1,7 @@
 package med.voll.api.paciente;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import med.voll.api.endereco.Endereco;
 
 @Getter
@@ -13,12 +10,12 @@ import med.voll.api.endereco.Endereco;
 @AllArgsConstructor
 @Entity(name = "Paciente")
 @Table(name = "pacientes")
+@Builder
 public class Paciente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nome;
     private String email;
     private String cpf;
@@ -27,12 +24,25 @@ public class Paciente {
     @Embedded
     private Endereco endereco;
 
-    public Paciente(DadosCadastroPaciente dados) {
-        this.nome = dados.nome();
-        this.email = dados.email();
-        this.telefone = dados.telefone();
-        this.cpf = dados.cpf();
-        this.endereco = Endereco.parseToEndereco(dados.endereco());
+    public static Paciente parseToPaciente(DadosCadastroPaciente dados) {
+        return Paciente.builder()
+                .nome(dados.nome())
+                .email(dados.email())
+                .telefone(dados.telefone())
+                .cpf(dados.cpf())
+                .endereco(Endereco.parseToEndereco(dados.endereco()))
+                .build();
     }
 
+    public void atualizarDados(DadosAtualizacaoPaciente dados) {
+        if (dados.nome() != null) {
+            this.nome = dados.nome();
+        }
+        if (dados.telefone() != null) {
+            this.telefone = dados.telefone();
+        }
+        if (dados.endereco() != null) {
+            this.endereco.atualizarDados(dados.endereco());
+        }
+    }
 }
