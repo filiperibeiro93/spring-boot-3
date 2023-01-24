@@ -4,6 +4,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import med.voll.api.paciente.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +28,9 @@ public class PacienteController {
     }
 
     @GetMapping
-    public List<DadosListagemPaciente> listar() {
+    public Page<DadosListagemPaciente> listar(@PageableDefault(size = 5, sort = {"nome"}) Pageable pageable) {
 
-        return repository.findAll().stream().map(DadosListagemPaciente::new).collect(Collectors.toList());
+        return repository.findAll(pageable).map(DadosListagemPaciente::new);
     }
 
     @PostMapping
