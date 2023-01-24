@@ -2,7 +2,7 @@ package med.voll.api.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import med.voll.api.paciente.*;
+import med.voll.api.domain.paciente.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +39,7 @@ public class PacienteController {
         return ResponseEntity.ok(repository.findAll(pageable).map(DadosListagemPaciente::new));
     }
 
-    @PostMapping
+    @PutMapping
     @Transactional
     public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoPaciente dados) {
 
