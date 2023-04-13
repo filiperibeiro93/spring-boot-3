@@ -22,7 +22,7 @@ public class PacienteController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroPaciente dados,
+    public ResponseEntity<DadosDetalhamentoPaciente> cadastrar(@RequestBody @Valid DadosCadastroPaciente dados,
                                     UriComponentsBuilder uriBuilder) {
 
         var paciente = Paciente.parseToPaciente(dados);
@@ -41,7 +41,7 @@ public class PacienteController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoPaciente dados) {
+    public ResponseEntity<DadosDetalhamentoPaciente> atualizar(@RequestBody @Valid DadosAtualizacaoPaciente dados) {
 
         var paciente = repository.getReferenceById(dados.id());
         paciente.atualizarDados(dados);
@@ -51,14 +51,14 @@ public class PacienteController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity excluir(@PathVariable Long id) {
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
 
         repository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity detalhar(@PathVariable Long id) {
+    public ResponseEntity<DadosDetalhamentoPaciente> detalhar(@PathVariable Long id) {
         var paciente = repository.getReferenceById(id);
 
         return ResponseEntity.ok(new DadosDetalhamentoPaciente(paciente));
