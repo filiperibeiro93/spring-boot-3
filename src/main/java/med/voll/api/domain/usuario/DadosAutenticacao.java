@@ -1,7 +1,9 @@
 package med.voll.api.domain.usuario;
 
+import jakarta.validation.constraints.NotNull;
+
 public record DadosAutenticacao(
-        String login,
-        String senha
+        @NotNull String login,
+        @NotNull String senha
 ) {
 }
